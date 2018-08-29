@@ -263,7 +263,7 @@ int main() {
               check_car_s += ((double)prev_size * 0.02 * check_speed);
               // car ahead
               if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
-                target_vel = check_speed * 2.24;
+                target_vel = check_speed * 2.24; // mps to MPH
                 too_close = true;
               }
             }
@@ -295,8 +295,8 @@ int main() {
             }
           }
 
-          if (too_close && ref_vel > target_vel) {
-            ref_vel -= 0.224 / 2;
+          if (too_close && ref_vel >= target_vel) {
+            ref_vel -= 0.224 / 2; // 0.05 m/s
             if (lane > 0 && left_close == false)
               lane--;
             else if (lane < 2 && right_close == false)
