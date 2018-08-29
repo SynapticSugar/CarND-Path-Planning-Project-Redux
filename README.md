@@ -100,41 +100,41 @@ using the following settings:
 
 Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
 
+
 ## Project Instructions and Rubric
 
 Note: regardless of the changes you make, your project must be buildable using
 cmake and make!
 
+### Compilation
 
-## Call for IDE Profiles Pull Requests
+```
+clone the git repo
+mkdir build
+cd build
+cmake ..
+make
+./path_planner
+```
 
-Help your fellow students!
+### Trajectories
 
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to ensure
-that students don't feel pressured to use one IDE or another.
+1. The car is able to drive at least 4.32 miles without incident.
+Link to video is provided.
+2. The car drives according to the speed limit. 
+Desired is set to 0.5 MPH under the 50 MPH speed limit.
+3. Max Acceleration and Jerk are not Exceeded.
+This is prevented by limiting how much the vehicle can change velocity in a given time step with a safety factor so an acceleration of 10 m/s^2  and a jerk of 10 m/s^3 are not exceeded.
+4. Car does not have collisions.
+This is prevented by checking for occupancy in the desired lane within a safty zone.
+5. The car stays in its lane, except for the time between changing lanes.
+The car doesn't spend more than a 3 second length out side the lane lanes during changing lanes, and every other time the car stays inside one of the 3 lanes on the right hand side of the road.
+6. The car is able to change lanes.
+The car is able to smoothly change lanes when it makes sense to do so, such as when behind a slower moving car and an adjacent lane is clear of other traffic. If it is not meeting the desired speed limit, it will make opportunistic lanes changes if there is an opening to maintain the speed limit.
 
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
+### Reflection
 
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
+Path generation for this project is very dtraight foward and rather simple. To minimize jerk a spline is used to generate the waypoints the car will follow sequentially every .02 seconds.  To increase velocity the path would spread the points further apart and to decrease velocity the points could be closer togehter.  Additionally to minimize jerk, a smooth transition between trajectory updates was maintained by adding subsequent points on to the end of the original path.
 
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+The spline itself was calculated in Frenet coordinates and mapped back and forth to world using the map road marker locations.
 
